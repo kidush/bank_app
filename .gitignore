@@ -1,7 +1,9 @@
 .ionide
 __pycache__/
 client/__pycache__/
+client/src/__pycache__/
 server/__pycache__/
+server/src/__pycache__/
 *.py[cod]
 *$py.class
 
