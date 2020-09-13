@@ -1,9 +1,5 @@
-from lib.auth import Auth
-# from lib.connection import Connection
+from src.auth import Auth
 from socket import *
-
-HOST = 'localhost'
-PORT = 9093
 
 class Main:
     def __init__(self, auth, server, port):
@@ -18,7 +14,7 @@ class Main:
         return self.connection.close()
        
 
-main = Main(Auth(), HOST, PORT)
+main = Main(Auth(), 'localhost', 9093)
 
 while True:
     main.run()

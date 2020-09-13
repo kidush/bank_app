@@ -1,5 +1,4 @@
 import json
-
 class Auth:
     def __init__(self):
         self._connection = None
