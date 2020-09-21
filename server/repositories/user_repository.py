@@ -11,12 +11,9 @@ class UserRepository:
         return list(map(lambda user: User(id=user[0], username=user[1], password=user[2]), self.users))
     
     def find(self, username, password):
-        query = self.connection.execute('''
+        user = self.connection.execute('''
                     select username, password 
                     from users 
                     where username = ? and password = ?
-                ''', (username, password))
-        return query.fetchone()
-
-
-
+                ''', (username, password)).fetchone()
+        return User(id = user[0], username = user[1], password = user[2])

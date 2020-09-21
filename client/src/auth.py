@@ -12,7 +12,10 @@ class Auth:
         self.__connection.send(json.dumps({'user': user, 'password': password}).encode())
 
         response = self.__connection.recv(1024)
-        print(response.decode())
+        response_data = response.decode()
+         
+        return response_data
+        
 
 
 

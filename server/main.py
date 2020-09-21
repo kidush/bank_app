@@ -9,33 +9,29 @@ sockobj = socket(AF_INET, SOCK_STREAM)
 sockobj.bind((HOST, PORTA))
 sockobj.listen(1)
 
-tentativas = 0
+tries = 0
 user_repository = UserRepository()
 while True:
-    conexao, endereco = sockobj.accept()
-    print('Conectado', endereco)
+    connection, address = sockobj.accept()
+    print('Conectado', address)
 
     while True:
-        data = conexao.recv(1024)
+        data = connection.recv(1024)
         print("User and password: ", json.loads(data))
         credentials = json.loads(data)
 
-        if tentativas == 2:
+        if tries == 2:
             print('Você atingiu o limite de tentativas!')
-            conexao.close()
+            connection.close()
             break
 
         user = user_repository.find(credentials['user'], credentials['password'])
         if user is not None:
-            resposta = "Autenticado com sucesso"
-            conexao.send(resposta.encode())
-            conexao.send(json.dumps({'logged_in': True}).encode())
+            connection.send("Autenticado com sucesso".encode())
+            connection.send(json.dumps({'logged_in': True}).encode())
         else:
-            tentativas += 1
-            conexao.send('Autenticação falhou!'.encode())
+            tries += 1
+            connection.send('Autenticação falhou!'.encode())
 
-
-    print('Desconectado', endereco)
-    conexao.close()
-
-print()
+    print('Desconectado', address)
+    connection.close()
