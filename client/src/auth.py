@@ -17,7 +17,6 @@ class Auth:
         if response == None:
             return False
 
-        print(response)
         response_data = json.loads(response.decode())
 
         return response_data
