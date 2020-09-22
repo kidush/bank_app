@@ -7,12 +7,17 @@ class Auth:
     def authenticate(self, connection):
         self.__connection = connection
 
-        user = input('Informe seu usuârio: ')
+        user = input('Informe seu usuário: ')
         password = input('Inform sua senha: ')
 
         self.__connection.send(json.dumps({'user': user, 'password': password}).encode())
 
         response = self.__connection.recv(1024)
+
+        if response == None:
+            return False
+
+        print(response)
         response_data = json.loads(response.decode())
 
         return response_data
