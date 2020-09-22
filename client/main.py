@@ -27,9 +27,6 @@ class Main:
         option = input(menu)
         self.connection.send(option.encode())
 
-
-
-
 main = Main(Auth(), 'localhost', 9093)
 
 while True:
