@@ -15,12 +15,15 @@ class Main:
             print('Autenticado com sucesso!')
             time.sleep(2)
             self.show_menu()
+            option_response = self.connection.recv(1024)
+            option_data = json.loads(option_response.decode())
+            print(option_data['message'])
         else:
             print('Login ou senha incorreta!')
 
     def close_connection(self):
         return self.connection.close()
-    
+
     def show_menu(self):
         menu = "Menu:\n 1 - Depositar\n 2 - Sacar\n 3 - Saldo\n 4 - Sair\n"
 
