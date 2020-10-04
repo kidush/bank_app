@@ -42,35 +42,39 @@ class Main:
 
     def main_menu(self):
         menu = self.draw_menu()
-        option = input(menu)
+        option = input(menu).strip()
 
-        if option == '1':
-            value_deposit = input('Informe o valor que você quer depositar: ')
-            self.connection.send(json.dumps({'option': option, 'value': value_deposit}).encode())
+        valid_options = ['1', '2', '3', '4']
+        if option in valid_options:
+            if option == '1':
+                value_deposit = input('Informe o valor que você quer depositar: ')
+                self.connection.send(json.dumps({'option': option, 'value': value_deposit}).encode())
 
-        if option == '2':
-            value_withdraw = input('Informe o valor que você quer sacar: ')
-            self.connection.send(json.dumps({'option': option, 'value': value_withdraw}).encode())
-        
-        if option == '3':
-            self.connection.send(json.dumps({'option': option, 'value': ''}).encode())
+            elif option == '2':
+                value_withdraw = input('Informe o valor que você quer sacar: ')
+                self.connection.send(json.dumps({'option': option, 'value': value_withdraw}).encode())
+            
+            elif option == '3':
+                self.connection.send(json.dumps({'option': option, 'value': ''}).encode())
 
-        if option == '4':
-            self.connection.send(json.dumps({'option': option, 'value': ''}).encode())
-            time.sleep(2)
+            elif option == '4':
+                self.connection.send(json.dumps({'option': option, 'value': ''}).encode())
+                time.sleep(2)
 
-        option_response = self.connection.recv(1024)
-        option_data = json.loads(option_response.decode())
+            option_response = self.connection.recv(1024)
+            option_data = json.loads(option_response.decode())
 
+            print()
+            print(option_data['message'])
+            print()
 
-        print()
-        print(option_data['message'])
-        print()
+            if option_data['exit']:
+                return False
 
-        if option_data['exit']:
-            return False
+            print('Voltando ao menu inicial...')
+        else:
+            print('Opção inválida! Escolha uma opção entre 1 e 4')
 
-        print('Voltando ao menu inicial...')
 
         time.sleep(3)
 
