@@ -57,14 +57,19 @@ class Main:
 
         if option == '4':
             self.connection.send(json.dumps({'option': option, 'value': ''}).encode())
-            return False
+            time.sleep(2)
 
         option_response = self.connection.recv(1024)
         option_data = json.loads(option_response.decode())
 
+
         print()
         print(option_data['message'])
         print()
+
+        if option_data['exit']:
+            return False
+
         print('Voltando ao menu inicial...')
 
         time.sleep(3)

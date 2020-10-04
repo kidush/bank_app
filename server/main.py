@@ -34,11 +34,15 @@ class Server:
                     if self.is_login_attempts_reached():
                         break 
                 else:
+                    if data.decode() == None or data.decode() == '':
+                        break
+
                     response_data = json.loads(data.decode())
                     self.choose_option(response_data['option'], response_data['value'])
                     
             print('Desconectado', self.address)
             self.connection.close()
+            break
 
     def is_user_authenticated(self, user, password):
         return user == self.fake_user['username'] and password == self.fake_user['password']
@@ -69,7 +73,7 @@ class Server:
         if self.balance <= 0:
             return self.server_message(f'Você não tem saldo suficiente para retirar R$ {value}', error=True)
         elif value > self.balance:
-            return self.server_message(f'O valor que você solicitou é maior do que seu saldo atual: R$ {self.balance}', error=True)
+            return self.server_message(f'O valor que você solicitou é maior do que seu saldo: R$ {self.balance}', error=True)
         else:
             self.balance -= value
             return self.server_message(f'Valor sacado: R$ {value}')
